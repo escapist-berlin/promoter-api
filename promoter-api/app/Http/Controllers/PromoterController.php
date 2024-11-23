@@ -65,8 +65,12 @@ class PromoterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Promoter $promoter)
+    public function destroy(Promoter $promoter): JsonResponse
     {
-        //
+        $promoter->delete();
+
+        return response()->json([
+            'message' => 'Promoter deleted successfully'
+        ], 200);
     }
 }
