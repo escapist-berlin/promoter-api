@@ -13,7 +13,12 @@ class PromoterController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json(["ok" => true, "promoters" => Promoter::all()], 200);
+        $promoters = Promoter::with(['promoterGroups', 'skills'])->get();
+
+        return response()->json([
+            "ok" => true,
+            "promoters" => $promoters
+        ], 200);
     }
 
     /**
@@ -29,7 +34,12 @@ class PromoterController extends Controller
      */
     public function show(Promoter $promoter): JsonResponse
     {
-        return response()->json(["ok" => true, "promoter" => $promoter], 200);
+        $promoter->load(['promoterGroups', 'skills']);
+
+        return response()->json([
+            "ok" => true,
+            "promoter" => $promoter
+        ], 200);
     }
 
     /**
