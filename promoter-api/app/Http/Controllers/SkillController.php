@@ -71,8 +71,12 @@ class SkillController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Skill $skill)
+    public function destroy(Skill $skill): JsonResponse
     {
-        //
+        $skill->delete();
+
+        return response()->json([
+            'message' => 'Skill deleted successfully',
+        ], 200);
     }
 }
