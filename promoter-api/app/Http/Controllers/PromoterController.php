@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrUpdatePromoterRequest;
 use App\Models\Promoter;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PromoterController extends Controller
 {
@@ -24,21 +24,9 @@ class PromoterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreOrUpdatePromoterRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'birthday_date' => 'required|date|before:today',
-            'gender' => 'required|string|in:male,female,other',
-            'email' => 'required|email|unique:promoters,email',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'availabilities' => 'nullable|array',
-            'availabilities.*' => 'string|max:255',
-        ]);
-
-        $promoter = Promoter::create($validated);
+        $promoter = Promoter::create($request->validated());
 
         return response()->json([
             'ok' => true,
@@ -63,21 +51,9 @@ class PromoterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Promoter $promoter)
+    public function update(StoreOrUpdatePromoterRequest $request, Promoter $promoter)
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'birthday_date' => 'required|date|before:today',
-            'gender' => 'required|string|in:male,female,other',
-            'email' => 'required|email|unique:promoters,email,' . $promoter->id,
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
-            'availabilities' => 'nullable|array',
-            'availabilities.*' => 'string|max:255',
-        ]);
-
-        $promoter->update($validated);
+        $promoter->update($request->validated());
 
         return response()->json([
             'ok' => true,
