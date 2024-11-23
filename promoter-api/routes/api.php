@@ -10,3 +10,6 @@ Route::apiResources([
     'promoter-groups' => PromoterGroupController::class,
     'skills' => SkillController::class,
 ]);
+
+// The route for adding a skill to the promoter's profile after completing a course
+Route::post('/promoters/{promoter}/skills', [PromoterController::class, 'addSkillToPromoter']);

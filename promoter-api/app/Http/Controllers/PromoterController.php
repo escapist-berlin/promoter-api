@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrUpdatePromoterRequest;
 use App\Models\Promoter;
+use App\Models\Skill;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PromoterController extends Controller
 {
@@ -71,6 +73,26 @@ class PromoterController extends Controller
 
         return response()->json([
             'message' => 'Promoter deleted successfully'
+        ], 200);
+    }
+
+    /**
+     * Add a skill to a promoter's profile after course completion.
+     *
+     * This method associates a specific skill with a promoter. The promoter's profile
+     * will be updated with the new skill.
+     *
+     * @param Request $request
+     * @param Promoter $promoter
+     */
+    public function addSkillToPromoter(Request $request, Promoter $promoter): JsonResponse
+    {
+        $skill = Skill::findOrFail($request->input('skill_id'));
+
+        $promoter->skills()->attach($skill->id);
+
+        return response()->json([
+            'message' => 'Skill successfully added to promoter.',
         ], 200);
     }
 }
