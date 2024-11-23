@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOrUpdateSkillRequest;
 use App\Models\Skill;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class SkillController extends Controller
 {
@@ -55,9 +54,18 @@ class SkillController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Skill $skill)
+    public function update(StoreOrUpdateSkillRequest $request, Skill $skill): JsonResponse
     {
-        //
+        $skill->update($request->only(['name', 'description']));
+
+        if ($request->has('promoter_group_ids')) {
+            $skill->promoterGroups()->sync($request->input('promoter_group_ids'));
+        }
+
+        return response()->json([
+            'message' => 'Skill updated successfully',
+            'skill' => $skill->load('promoterGroups'),
+        ], 200);
     }
 
     /**
