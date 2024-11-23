@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Promoter extends Model
 {
@@ -23,5 +24,15 @@ class Promoter extends Model
             'birthday_date' => 'date',
             'availabilities' => 'array',
         ];
+    }
+
+    public function promoterGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(PromoterGroup::class, 'promoter_promoter_group', 'promoter_id', 'promoter_group_id');
+    }
+
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'promoter_skill', 'promoter_id', 'skill_id');
     }
 }
