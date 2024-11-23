@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreOrUpdatePromoterRequest extends FormRequest
 {
@@ -34,5 +36,23 @@ class StoreOrUpdatePromoterRequest extends FormRequest
             'availabilities' => 'nullable|array',
             'availabilities.*' => 'string|max:255',
         ];
+    }
+
+    /**
+     * Handle failed validation and return a JSON response with errors.
+     *
+     * @param \Illuminate\Validation\Validator $validator
+     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        $errors = $validator->errors();
+
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation failed',
+                'errors' => $errors
+            ], 422)
+        );
     }
 }
