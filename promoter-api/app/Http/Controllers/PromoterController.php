@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promoter;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PromoterController extends Controller
@@ -10,9 +11,9 @@ class PromoterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(["ok" => true, "promoters" => Promoter::all()], 200);
     }
 
     /**
@@ -26,9 +27,9 @@ class PromoterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Promoter $promoter)
+    public function show(Promoter $promoter): JsonResponse
     {
-        //
+        return response()->json(["ok" => true, "promoter" => $promoter], 200);
     }
 
     /**
