@@ -24,9 +24,27 @@ class PromoterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'birthday_date' => 'required|date|before:today',
+            'gender' => 'required|string|in:male,female,other',
+            'email' => 'required|email|unique:promoters,email',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'availabilities' => 'nullable|array',
+            'availabilities.*' => 'string|max:255',
+        ]);
+
+        $promoter = Promoter::create($validated);
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Promoter registered successfully',
+            'promoter' => $promoter,
+        ], 201);
     }
 
     /**
@@ -47,7 +65,25 @@ class PromoterController extends Controller
      */
     public function update(Request $request, Promoter $promoter)
     {
-        //
+        $validated = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'birthday_date' => 'required|date|before:today',
+            'gender' => 'required|string|in:male,female,other',
+            'email' => 'required|email|unique:promoters,email,' . $promoter->id,
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'availabilities' => 'nullable|array',
+            'availabilities.*' => 'string|max:255',
+        ]);
+
+        $promoter->update($validated);
+
+        return response()->json([
+            'ok' => true,
+            'message' => 'Promoter updated successfully',
+            'promoter' => $promoter,
+        ], 200);
     }
 
     /**
