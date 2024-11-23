@@ -42,7 +42,7 @@ class StoreOrUpdatePromoterRequest extends FormRequest
      * Handle failed validation and return a JSON response with errors.
      *
      * @param \Illuminate\Validation\Validator $validator
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
+     * @throws HttpResponseException
      */
     protected function failedValidation(Validator $validator): void
     {

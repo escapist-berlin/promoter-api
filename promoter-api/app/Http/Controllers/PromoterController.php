@@ -51,7 +51,7 @@ class PromoterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreOrUpdatePromoterRequest $request, Promoter $promoter)
+    public function update(StoreOrUpdatePromoterRequest $request, Promoter $promoter): JsonResponse
     {
         $promoter->update($request->validated());
 
