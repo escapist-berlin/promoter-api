@@ -21,12 +21,15 @@ class PromoterFactory extends Factory
         return [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'birthday_date' => $this->faker->date(),
+            'birthday_date' => $this->faker->date('Y-m-d'),
             'gender' => $this->faker->randomElement(['male', 'female', 'other']),
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'address' => $this->faker->address,
-            'availabilities' => $this->faker->sentence,
+            'availabilities' => $this->faker->randomElements(
+                ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                $count = rand(1, 5)
+            ),
         ];
     }
 }
