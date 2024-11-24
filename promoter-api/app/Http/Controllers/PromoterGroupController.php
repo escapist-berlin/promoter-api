@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrUpdatePromoterGroupRequest;
 use App\Models\PromoterGroup;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class PromoterGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $promoterGroups = PromoterGroup::with(['promoters', 'skills'])->get();
 
@@ -24,7 +24,7 @@ class PromoterGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrUpdatePromoterGroupRequest $request)
+    public function store(StoreOrUpdatePromoterGroupRequest $request): JsonResponse
     {
         $promoterGroup = PromoterGroup::create($request->validated());
 
@@ -40,15 +40,20 @@ class PromoterGroupController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PromoterGroup $promoterGroup)
+    public function show(PromoterGroup $promoterGroup): JsonResponse
     {
-        //
+        $promoterGroup->load(['promoters', 'skills']);
+
+        return response()->json([
+            "ok" => true,
+            "promoterGroup" => $promoterGroup
+        ], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreOrUpdatePromoterGroupRequest $request, PromoterGroup $promoterGroup)
+    public function update(StoreOrUpdatePromoterGroupRequest $request, PromoterGroup $promoterGroup): JsonResponse
     {
         $promoterGroup->update($request->validated());
 
@@ -64,9 +69,13 @@ class PromoterGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PromoterGroup $promoterGroup)
+    public function destroy(PromoterGroup $promoterGroup): JsonResponse
     {
-        //
+        $promoterGroup->delete();
+
+        return response()->json([
+            'message' => 'Promoter group deleted successfully',
+        ], 200);
     }
 
     /**

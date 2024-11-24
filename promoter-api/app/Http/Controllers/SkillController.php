@@ -41,7 +41,7 @@ class SkillController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Skill $skill)
+    public function show(Skill $skill): JsonResponse
     {
         $skill->load(['promoters', 'promoterGroups']);
 
