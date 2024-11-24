@@ -93,6 +93,7 @@ class PromoterController extends Controller
 
         return response()->json([
             'message' => 'Skill successfully added to promoter.',
+            'promoter' => $promoter->load('skills'),
         ], 200);
     }
 }
