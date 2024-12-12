@@ -16,12 +16,19 @@
    ```bash
    herd isolate php@8.3
    ```
-4. Install the dependencies.
+4. Secure the application.
+     ```bash
+     herd secure
+     ```
+5. Install the dependencies.
    ```bash
    herd composer install
    ```
-5. Set up the SQLite database.
-6. Copy the .env.example file and rename it to .env.
+6. Set up the SQLite database.
+   ```bash
+   touch database/database.sqlite
+   ```
+7. Copy the .env.example file and rename it to .env.
    ```bash
    cp .env.example .env
    ```
@@ -30,28 +37,24 @@
    ```bash
    DB_DATABASE=/full/path/to/database/database.sqlite
    ```
-7. Generate a new application key.
+8. Generate a new application key.
    ```bash
    herd php artisan key:generate
    ```
-8. Run the database migrations.
+9. Run the database migrations.
    ```bash
    herd php artisan migrate
    ```
-9. Run the database seeders.
+10. Run the database seeders.
      ```bash
      herd php artisan db:seed
      ```
-10. Generate the Swagger API documentation.
+11. Generate the Swagger API documentation.
      ```bash
      herd php artisan l5-swagger:generate
      ```
-11. Secure the application.
-     ```bash
-     herd secure
-     ```
-14. Visit https://promoter-api.test/api/documentation/ in your browser.
-15. You can now use the application.
+12. Visit https://promoter-api.test/api/documentation/ in your browser.
+13. You can now use the application.
 
 ## Helpful tools
 
